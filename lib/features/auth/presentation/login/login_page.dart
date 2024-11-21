@@ -2,31 +2,40 @@ import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
 
 import '../../../../../export.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final controller = sl<AuthCubit>();
+
   final GlobalKey<FormState> formKey = GlobalKey();
+
   final emailTextController = TextEditingController();
+
   final passTextController = TextEditingController();
+
+  loginClick() async {
+    if (formKey.currentState!.validate()) {
+      final res = await controller.login({
+        "email": emailTextController.text,
+        "password": passTextController.text,
+      });
+      if (res != null) {
+        Logger().i(res.toJson());
+        context.goNamed(Routes.home);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    loginClick() async {
-      if (formKey.currentState!.validate()) {
-        final res = await controller.login({
-          "email": emailTextController.text,
-          "password": passTextController.text,
-        });
-        if (res != null) {
-          Logger().i(res.toJson());
-          context.goNamed(Routes.home);
-        }
-      }
-    }
-
     return Scaffold(
         backgroundColor: kBGGreyColor,
-        appBar: CustomAppBar(title: 'accountLogin'),
+        appBar: CustomAppBar(title: context.t.singIn),
         body: Form(
           key: formKey,
           child: ListView(
