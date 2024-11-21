@@ -14,34 +14,6 @@ final OutlineInputBorder kBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(16),
 );
 
-final lightTheme = ThemeData(
-  primaryColor: kPrimaryColor,
-  brightness: Brightness.light,
-  appBarTheme: const AppBarTheme().copyWith(color: kPrimaryColor),
-  dividerColor: Colors.white54,
-  textTheme: Typography.blackCupertino.copyWith(
-    titleLarge: TextStyle(
-        color: kGreyColor, fontSize: 18.sp, fontWeight: FontWeight.w600),
-    titleMedium: TextStyle(color: kTextGreyColor, fontSize: 14.sp),
-    titleSmall: TextStyle(color: kTextGreyColor, fontSize: 12.sp),
-    bodySmall: TextStyle(color: kBlack, fontSize: 11.sp),
-    labelSmall: TextStyle(
-      color: kGreyShade.shade500,
-      fontSize: 14.sp,
-      fontWeight: FontWeight.w600,
-    ),
-    displaySmall: TextStyle(
-      color: kGreyShade.shade900,
-      fontSize: 14.sp,
-      fontWeight: FontWeight.w500,
-    ),
-  ),
-  fontFamily: 'Cairo',
-  colorScheme: ColorScheme.fromSwatch(primarySwatch: kPrimaryColor)
-      .copyWith(secondary: kPrimaryColor)
-      .copyWith(background: kBGGreyColor),
-);
-
 final darkTheme = ThemeData(
   primaryColor: kPrimaryColor,
   brightness: Brightness.dark,
@@ -51,5 +23,5 @@ final darkTheme = ThemeData(
   colorScheme: ColorScheme.fromSwatch(
           primarySwatch: kPrimaryColor, brightness: Brightness.dark)
       .copyWith(secondary: Colors.white)
-      .copyWith(background: const Color(0xFF212121)),
+      .copyWith(background: kDark),
 );

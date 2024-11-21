@@ -1,6 +1,5 @@
 import 'package:flutter_new_template/core/feature/data/models/user_wrapper.dart';
 import 'package:flutter_new_template/features/auth/domain/usecases/usecases.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../../export.dart';
 
@@ -15,7 +14,6 @@ class AuthCubit extends Cubit<BaseState> {
   final GlobalKey<FormState> basicFormKey = GlobalKey();
   final GlobalKey<FormState> completeFormKey = GlobalKey();
   Map<String, dynamic>? data;
-  final ImagePicker _picker = ImagePicker();
 
   Future<UserWrapper?> login(Map<String, String> user) async {
     return await handleError(() async {
@@ -45,9 +43,6 @@ class AuthCubit extends Cubit<BaseState> {
       });
     });
   }
-
-  Future<XFile?> selectImage() async =>
-      await _picker.pickImage(source: ImageSource.gallery);
 
   logout() async {
     return await handleError(() async {

@@ -1,20 +1,16 @@
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
-import 'package:super_rich_text/super_rich_text.dart';
 
 import '../../../../../export.dart';
 
-class LoginPage extends HookWidget {
+class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final controller = sl<AuthCubit>();
   final GlobalKey<FormState> formKey = GlobalKey();
+  final emailTextController = TextEditingController();
+  final passTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final emailTextController = useTextEditingController();
-    final passTextController = useTextEditingController();
-    final isRemember = useState(true);
-
     loginClick() async {
       if (formKey.currentState!.validate()) {
         final res = await controller.login({
@@ -23,7 +19,7 @@ class LoginPage extends HookWidget {
         });
         if (res != null) {
           Logger().i(res.toJson());
-          context.goNamed(Routes.posts);
+          context.goNamed(Routes.home);
         }
       }
     }
@@ -54,22 +50,6 @@ class LoginPage extends HookWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    visualDensity: VisualDensity.compact,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    dense: true,
-                    activeColor: kPrimaryColor,
-                    checkColor: kBGGreyColor,
-                    side: MaterialStateBorderSide.resolveWith((states) =>
-                        const BorderSide(width: 2, color: Colors.black12)),
-                    title: Text(
-                      'context.t.remember',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    value: isRemember.value,
-                    onChanged: (value) => isRemember.value = value!,
-                  ),
                   Text(
                     context.t.forgetPass,
                     style: Theme.of(context).textTheme.titleMedium,
@@ -91,19 +71,8 @@ class LoginPage extends HookWidget {
               24.heightBox,
               GestureDetector(
                 onTap: () => context.pushNamed(Routes.signup),
-                child: SuperRichText(
-                  text: '${context.t.doHaveAccount}  ll${context.t.register}ll',
-                  style: Theme.of(context).textTheme.titleMedium!,
-                  othersMarkers: [
-                    MarkerText(
-                      marker: 'll',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: kPrimaryColor),
-                    ),
-                  ],
-                ),
+                child: Text(context.t.register,
+                    style: Theme.of(context).textTheme.labelSmall),
               ),
             ],
           ),
