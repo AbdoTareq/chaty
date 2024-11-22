@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/core/feature/data/datasources/secure_local_data_source.dart';
 import 'package:flutter_new_template/core/feature/data/repositories/auth_repository.dart';
+import 'package:flutter_new_template/export.dart';
 import 'package:flutter_new_template/features/auth/domain/usecases/usecases.dart';
 import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
 import 'package:flutter_new_template/features/auth/presentation/reset_pass_cubit.dart';
@@ -27,7 +28,8 @@ Future<void> init() async {
   //     () => RemoteDataSource(network: sl(), networkInfo: sl()));
 
   //! Core
-  sl.registerLazySingleton(() => SecureLocalDataSourceImpl(box: sl()));
+  sl.registerLazySingleton<LocalDataSource>(
+      () => SecureLocalDataSourceImpl(box: sl()));
 
   //! External
   sl.registerLazySingleton(() => const FlutterSecureStorage());

@@ -22,7 +22,7 @@ class AppRouter {
             imagePath: '',
             home: sl<FirebaseAuth>().currentUser?.email != null
                 ? Routes.home
-                : Routes.signup,
+                : Routes.login,
             title: '',
             duration: Duration.hoursPerDay,
             type: AnimatedSplashType.StaticDuration,

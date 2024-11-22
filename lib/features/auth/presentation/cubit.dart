@@ -9,10 +9,6 @@ class AuthCubit extends Cubit<BaseState<User?>> {
   }) : super(const BaseState());
   final AuthUseCase useCase;
 
-  final GlobalKey<FormState> basicFormKey = GlobalKey();
-  final GlobalKey<FormState> completeFormKey = GlobalKey();
-  Map<String, dynamic>? data;
-
   Future login(String email, String password) async {
     final response = await useCase.login(email, password);
     return response.fold((l) {

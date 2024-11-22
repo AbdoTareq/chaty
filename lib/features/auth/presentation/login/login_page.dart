@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
 
 import '../../../../../export.dart';
@@ -18,35 +19,24 @@ class _LoginPageState extends State<LoginPage> {
 
   final passTextController = TextEditingController();
 
-  loginClick() async {
-    if (formKey.currentState!.validate()) {
-      final res = await controller.login({
-        "email": emailTextController.text,
-        "password": passTextController.text,
-      });
-      if (res != null) {
-        Logger().i(res.toJson());
-        context.goNamed(Routes.home);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: kBGGreyColor,
-        appBar: CustomAppBar(title: context.t.singIn),
         body: Form(
-          key: formKey,
-          child: ListView(
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 56),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              .2.sh.heightBox,
+              Text(context.t.singInNew,
+                  style: Theme.of(context).textTheme.headlineMedium),
               32.h.heightBox,
-              Image.asset('assets/images/logo.png'),
-              20.h.heightBox,
               TextInput(
                 autofillHints: const [AutofillHints.email],
                 controller: emailTextController,
-                textColor: kBlack,
                 inputType: TextInputType.emailAddress,
                 hint: context.t.email,
                 validate: (value) =>
@@ -56,35 +46,44 @@ class _LoginPageState extends State<LoginPage> {
                 controller: passTextController,
                 hint: context.t.password,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    context.t.forgetPass,
-                    style: Theme.of(context).textTheme.titleMedium,
+              BlocListener<AuthCubit, BaseState<User?>>(
+                bloc: controller,
+                listener: (context, state) {
+                  if (state.status == RxStatus.success) {
+                    context.pushNamed(Routes.home);
+                  } else if (state.status == RxStatus.error) {
+                    showFailSnack(
+                        message: state.errorMessage ?? 'Failed to login');
+                  }
+                },
+                child: RoundedCornerLoadingButton(
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      await controller.login(
+                        emailTextController.text,
+                        passTextController.text,
+                      );
+                    }
+                  },
+                  child: Text(
+                    context.t.singInNew,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: kBGGreyColor),
                   ),
-                  12.w.widthBox,
-                ],
-              ),
-              34.h.heightBox,
-              RoundedCornerLoadingButton(
-                onPressed: loginClick,
-                child: Text(
-                  context.t.logInFirst,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(color: kBGGreyColor),
                 ),
               ),
               24.heightBox,
               GestureDetector(
                 onTap: () => context.pushNamed(Routes.signup),
                 child: Text(context.t.register,
-                    style: Theme.of(context).textTheme.labelSmall),
+                    style: Theme.of(context).textTheme.titleMedium),
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
 }

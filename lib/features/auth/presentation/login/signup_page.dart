@@ -45,6 +45,7 @@ class _SignupPageState extends State<SignupPage> {
                 hint: context.t.password,
               ),
               BlocListener<AuthCubit, BaseState<User?>>(
+                bloc: controller,
                 listener: (context, state) {
                   if (state.status == RxStatus.success) {
                     context.pushNamed(Routes.home);
