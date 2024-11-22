@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_new_template/core/feature/data/models/person_model.dart';
 import 'package:flutter_new_template/features/animated_splash/views/animated_splash_view.dart';
 import 'package:flutter_new_template/features/home/presentation/chat/chat_details_page.dart';
 import 'package:flutter_new_template/features/home/presentation/chat/persons_list_page.dart';
@@ -47,7 +48,9 @@ class AppRouter {
         GoRoute(
           name: Routes.chatDetails,
           path: Routes.chatDetails,
-          builder: (context, state) => const ChatDetailsPage(),
+          builder: (context, state) => ChatDetailsPage(
+            person: state.extra as PersonModel,
+          ),
         ),
       ]);
 }

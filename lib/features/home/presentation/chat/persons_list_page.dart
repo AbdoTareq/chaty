@@ -23,7 +23,9 @@ class _PersonsListPageState extends State<PersonsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Persons'),
+      appBar: const CustomAppBar(
+        title: 'Persons',
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: CustomCubitBuilder<List<PersonModel>>(
