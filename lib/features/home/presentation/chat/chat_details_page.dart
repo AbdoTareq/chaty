@@ -1,8 +1,8 @@
 import 'package:flutter_new_template/export.dart';
 import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ChatDetailsPage extends StatelessWidget {
+  const ChatDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

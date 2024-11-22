@@ -48,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                 bloc: controller,
                 listener: (context, state) {
                   if (state.status == RxStatus.success) {
-                    context.pushNamed(Routes.home);
+                    context.pushNamed(Routes.personsList);
                   } else if (state.status == RxStatus.error) {
                     showFailSnack(
                         message: state.errorMessage ?? 'Failed to register');

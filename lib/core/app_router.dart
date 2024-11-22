@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/features/animated_splash/views/animated_splash_view.dart';
+import 'package:flutter_new_template/features/home/presentation/chat/chat_details_page.dart';
+import 'package:flutter_new_template/features/home/presentation/chat/persons_list_page.dart';
 import 'package:flutter_new_template/features/auth/presentation/login/login_page.dart';
 import 'package:flutter_new_template/features/auth/presentation/login/signup_page.dart';
-import 'package:flutter_new_template/features/auth/presentation/pass/home_page.dart';
 
 import '../../export.dart';
 
@@ -21,7 +22,7 @@ class AppRouter {
           builder: (context, state) => AnimatedSplash(
             imagePath: '',
             home: sl<FirebaseAuth>().currentUser?.email != null
-                ? Routes.home
+                ? Routes.personsList
                 : Routes.login,
             title: '',
             duration: Duration.hoursPerDay,
@@ -39,9 +40,14 @@ class AppRouter {
           builder: (context, state) => const SignupPage(),
         ),
         GoRoute(
-          name: Routes.home,
-          path: Routes.home,
-          builder: (context, state) => const HomePage(),
+          name: Routes.personsList,
+          path: Routes.personsList,
+          builder: (context, state) => const PersonsListPage(),
+        ),
+        GoRoute(
+          name: Routes.chatDetails,
+          path: Routes.chatDetails,
+          builder: (context, state) => const ChatDetailsPage(),
         ),
       ]);
 }

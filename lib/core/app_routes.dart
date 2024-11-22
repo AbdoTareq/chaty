@@ -3,5 +3,6 @@ abstract class Routes {
   static const animatedSplash = '/';
   static const login = '/login';
   static const signup = '/signup';
-  static const home = '/home';
+  static const personsList = '/chatList';
+  static const chatDetails = '/chatDetails';
 }
