@@ -1,10 +1,16 @@
 import 'package:flutter_new_template/core/feature/data/models/person_model.dart';
 import 'package:flutter_new_template/export.dart';
-import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
 
-class ChatDetailsPage extends StatelessWidget {
+class ChatDetailsPage extends StatefulWidget {
   const ChatDetailsPage({super.key, required this.person});
   final PersonModel person;
+
+  @override
+  State<ChatDetailsPage> createState() => _ChatDetailsPageState();
+}
+
+class _ChatDetailsPageState extends State<ChatDetailsPage> {
+  final TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,7 @@ class ChatDetailsPage extends StatelessWidget {
                         radius: 25,
                         backgroundColor: kPrimaryColor,
                         child: Text(
-                          person.email![0].toTitleCase(),
+                          widget.person.email![0].toTitleCase(),
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
                       ),
@@ -34,11 +40,11 @@ class ChatDetailsPage extends StatelessWidget {
                   ),
                 ),
                 title: Text(
-                  person.email ?? '',
+                  widget.person.email ?? '',
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 subtitle: Text(
-                  person.status.toString().toTitleCase(),
+                  widget.person.status.toString().toTitleCase(),
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
@@ -46,6 +52,28 @@ class ChatDetailsPage extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(child: Column(children: [])),
             ),
+            Container(
+                color: kGrey,
+                height: 80,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: TextInput(
+                            controller: textController,
+                            hint: 'Type a message',
+                            color: kBlack,
+                          ),
+                        ),
+                      ),
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.send))
+                    ],
+                  ),
+                ))
           ],
         ),
       ),
