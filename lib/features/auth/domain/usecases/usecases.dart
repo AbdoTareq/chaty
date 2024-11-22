@@ -1,23 +1,24 @@
 import 'dart:io';
 
-import 'package:flutter_new_template/core/feature/data/models/user_wrapper.dart';
-import 'package:flutter_new_template/core/feature/domain/repositories/repositories.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_new_template/core/feature/data/repositories/auth_repository.dart';
 
 import '../../../../export.dart';
 
 class AuthUseCase {
-  final Repository repository;
+  final AuthRepository repository;
 
   AuthUseCase({required this.repository});
 
-  Future<Either<Failure, UserWrapper>> login(Map user) async {
-    return (repository.post('user/login', user)).then((value) =>
-        value.map((r) => r == null ? UserWrapper() : UserWrapper.fromJson(r)));
+  Future<Either<Exception, User?>> login(String email, String password) async {
+    return await repository.login(email, password);
   }
 
-  Future<Either<Failure, UserWrapper>> signup(Map user) async {
-    return (repository.uploadImage('user/register', user, File(user['avatar'])))
-        .then((value) => value
-            .map((r) => r == null ? UserWrapper() : UserWrapper.fromJson(r)));
+  Future<Either<Exception, User?>> signup(String email, String password) async {
+    return await repository.signup(email, password);
+  }
+
+  Future<Either<Exception, void>> logout() async {
+    return await repository.logout();
   }
 }

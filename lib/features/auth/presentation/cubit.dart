@@ -1,52 +1,50 @@
-import 'package:flutter_new_template/core/feature/data/models/user_wrapper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/features/auth/domain/usecases/usecases.dart';
 
 import '../../../../../export.dart';
 
-class AuthCubit extends Cubit<BaseState> {
+class AuthCubit extends Cubit<BaseState<User?>> {
   AuthCubit({
     required this.useCase,
-    required this.box,
   }) : super(const BaseState());
   final AuthUseCase useCase;
-  final GetStorage box;
 
   final GlobalKey<FormState> basicFormKey = GlobalKey();
   final GlobalKey<FormState> completeFormKey = GlobalKey();
   Map<String, dynamic>? data;
 
-  Future<UserWrapper?> login(Map<String, String> user) async {
-    return await handleError(() async {
-      final response = await useCase.login(user);
-      return response.fold((l) {
-        showSimpleDialog(text: l.message.toString());
-        return null;
-      }, (r) {
-        box.write(kUser, r.toJson());
-        if (r.accessToken != null) {
-          box.write(kToken, r.accessToken);
-        }
-        return r;
-      });
+  Future login(String email, String password) async {
+    final response = await useCase.login(email, password);
+    return response.fold((l) {
+      emit(state.copyWith(status: RxStatus.error, errorMessage: l.toString()));
+    }, (r) {
+      if (r == null) {
+        emit(
+            state.copyWith(status: RxStatus.error, errorMessage: r.toString()));
+      } else
+        emit(state.copyWith(status: RxStatus.success, data: r));
     });
   }
 
-  Future signup(Map<String, dynamic> user) async {
-    var temp = {...user, ...data!};
-    return await handleError(() async {
-      final response = await useCase.signup(temp);
-      return response.fold((l) {
-        showSimpleDialog(text: l.message.toString());
-      }, (r) {
-        Logger().i(r.toJson());
-        return r;
-      });
+  Future signup(String email, String password) async {
+    final response = await useCase.signup(email, password);
+    return response.fold((l) {
+      emit(state.copyWith(status: RxStatus.error, errorMessage: l.toString()));
+    }, (r) {
+      if (r == null) {
+        emit(
+            state.copyWith(status: RxStatus.error, errorMessage: r.toString()));
+      } else
+        emit(state.copyWith(status: RxStatus.success, data: r));
     });
   }
 
   logout() async {
-    return await handleError(() async {
-      box.erase();
+    final response = await useCase.logout();
+    return response.fold((l) {
+      emit(state.copyWith(status: RxStatus.error, errorMessage: l.toString()));
+    }, (r) {
+      emit(state.copyWith(status: RxStatus.success));
     });
   }
 }

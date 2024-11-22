@@ -1,16 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_new_template/firebase_options.dart';
+
 import 'core/injection_container.dart' as di;
 import 'export.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await di.init();
 
-  await Future.wait([GetStorage.init()]);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: kPrimaryColor),
   );
-  LocaleSettings.setLocaleRaw(
-      sl<GetStorage>().read(kLanguage) ?? AppLocale.en.languageCode);
+  LocaleSettings.setLocaleRaw(AppLocale.en.languageCode);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) {
       runApp(
@@ -21,7 +25,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static bool isDark = GetStorage().read('dark') ?? false;
   static BuildContext? appContext;
 
   const MyApp({super.key});

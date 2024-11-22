@@ -5,6 +5,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        Text('text', style: Theme.of(context).textTheme.displayLarge),
+      ],
+    );
   }
 }

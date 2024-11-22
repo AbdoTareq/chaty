@@ -75,7 +75,6 @@ class _AnimatedSplashState extends State<AnimatedSplash>
           });
 
     return Scaffold(
-        backgroundColor: kBGGreyColor,
         body: FadeTransition(
             opacity: _animation,
             child: Center(
@@ -83,7 +82,8 @@ class _AnimatedSplashState extends State<AnimatedSplash>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Expanded(child: SizedBox()),
-                  SizedBox(child: Image.asset(_imagePath)),
+                  Text('Chaty',
+                      style: Theme.of(context).textTheme.displayLarge),
                   const Expanded(child: SizedBox()),
                 ],
               ),

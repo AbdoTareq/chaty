@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/features/animated_splash/views/animated_splash_view.dart';
 import 'package:flutter_new_template/features/auth/presentation/login/login_page.dart';
+import 'package:flutter_new_template/features/auth/presentation/login/signup_page.dart';
 import 'package:flutter_new_template/features/auth/presentation/pass/home_page.dart';
 
 import '../../export.dart';
@@ -11,15 +13,16 @@ class AppRouter {
   /// use for navigate without context
   static final GoRouter routes = GoRouter(
       navigatorKey: navKey,
-      initialLocation:
-          !sl<GetStorage>().hasData(kToken) ? Routes.home : Routes.login,
+      initialLocation: Routes.animatedSplash,
       routes: [
         GoRoute(
           name: Routes.animatedSplash,
           path: Routes.animatedSplash,
           builder: (context, state) => AnimatedSplash(
             imagePath: '',
-            home: sl<GetStorage>().hasData(kToken) ? Routes.home : Routes.login,
+            home: sl<FirebaseAuth>().currentUser?.email != null
+                ? Routes.home
+                : Routes.signup,
             title: '',
             duration: Duration.hoursPerDay,
             type: AnimatedSplashType.StaticDuration,
@@ -28,12 +31,17 @@ class AppRouter {
         GoRoute(
           name: Routes.login,
           path: Routes.login,
-          builder: (context, state) => LoginPage(),
+          builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
+          name: Routes.signup,
+          path: Routes.signup,
+          builder: (context, state) => const SignupPage(),
         ),
         GoRoute(
           name: Routes.home,
           path: Routes.home,
-          builder: (context, state) => HomePage(),
+          builder: (context, state) => const HomePage(),
         ),
       ]);
 }

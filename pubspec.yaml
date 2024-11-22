@@ -29,16 +29,13 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.6
   dartz: ^0.10.1
-  animated_custom_dropdown: ^3.0.0
   flutter:
     sdk: flutter
-  get_storage: ^2.1.1
   flutter_screenutil: ^5.9.0
   lottie: ^2.7.0
   equatable: ^2.0.5
   go_router: ^13.2.2
   flutter_bloc: ^8.1.3
-  internet_connection_checker: ^1.0.0+1
   slang: ^3.29.0
   slang_flutter: ^3.29.0
   get_it: ^7.6.6
@@ -47,7 +44,7 @@ dependencies:
   firebase_core: ^2.15.0
   # to fix android run
   firebase_core_platform_interface: 4.8.0
-  firebase_auth: 4.8.0
+  firebase_auth:
   cloud_firestore: ^4.8.4
 
 dev_dependencies:

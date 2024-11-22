@@ -14,14 +14,6 @@ class _AppDrawerState extends State<AppDrawer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // SwitchListTile(
-          //     title: darkMode.text.bold.make(),
-          //     value: controller.darkMode.value,
-          //     secondary: Icon(Icons.sunny, color: kPrimaryColor),
-          //     onChanged: (_) {
-          //       controller.darkMode.toggle();
-          //       controller.box.write('dark', controller.darkMode.value);
-          //     }),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
 
@@ -41,30 +33,17 @@ class _AppDrawerState extends State<AppDrawer> {
                     // locale change, will trigger a rebuild (no setState needed)
                     LocaleSettings.setLocale(locale);
                     setState(() {});
-                    await sl<GetStorage>()
-                        .write(kLanguage, locale.languageCode);
                   },
                   child: Text(locale.languageTag),
                 ),
               );
             }).toList(),
           ),
-          GetStorage().hasData('token')
-              ? CustomListTile(
-                  onTap: () {
-                    GetStorage().remove('token');
-                    // Get.find<AppSettingsController>().user.value.data = null;
-                  },
-                  title: Text(context.t.logOut),
-                  leading: const Icon(Icons.exit_to_app, color: kPrimaryColor),
-                )
-              : CustomListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  title: Text(context.t.logInFirst),
-                  leading: const Icon(Icons.login, color: kPrimaryColor),
-                ),
+          CustomListTile(
+            onTap: () {},
+            title: Text(context.t.logOut),
+            leading: const Icon(Icons.exit_to_app, color: kPrimaryColor),
+          )
         ],
       ),
     );
