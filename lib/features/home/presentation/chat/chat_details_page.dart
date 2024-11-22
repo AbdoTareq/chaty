@@ -1,5 +1,7 @@
 import 'package:flutter_new_template/core/feature/data/models/person_model.dart';
 import 'package:flutter_new_template/export.dart';
+import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
+import 'package:flutter_new_template/features/home/presentation/chat/persons_cubit.dart';
 
 class ChatDetailsPage extends StatefulWidget {
   const ChatDetailsPage({super.key, required this.person});
@@ -11,6 +13,7 @@ class ChatDetailsPage extends StatefulWidget {
 
 class _ChatDetailsPageState extends State<ChatDetailsPage> {
   final TextEditingController textController = TextEditingController();
+  final PersonsCubit cubit = sl<PersonsCubit>();
 
   @override
   Widget build(BuildContext context) {

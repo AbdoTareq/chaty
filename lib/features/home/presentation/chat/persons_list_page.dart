@@ -38,29 +38,27 @@ class _PersonsListPageState extends State<PersonsListPage> {
                   16.heightBox,
               itemBuilder: (context, index) {
                 final item = state.data![index];
-                return item.email == sl<FirebaseAuth>().currentUser?.email
-                    ? Container()
-                    : ListTile(
-                        onTap: () {
-                          context.pushNamed(Routes.chatDetails, extra: item);
-                        },
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: kPrimaryColor,
-                          child: Text(
-                            item.email![0].toTitleCase(),
-                            style: Theme.of(context).textTheme.headlineLarge,
-                          ),
-                        ),
-                        title: Text(
-                          item.email ?? '',
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        subtitle: Text(
-                          item.status.toString().toTitleCase(),
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                      );
+                return ListTile(
+                  onTap: () {
+                    context.pushNamed(Routes.chatDetails, extra: item);
+                  },
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: kPrimaryColor,
+                    child: Text(
+                      item.email![0].toTitleCase(),
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                  ),
+                  title: Text(
+                    item.email ?? '',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  subtitle: Text(
+                    item.status.toString().toTitleCase(),
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                );
               },
             );
           },
