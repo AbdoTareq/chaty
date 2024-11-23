@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/core/feature/data/models/message_model.dart';
 import 'package:flutter_new_template/core/feature/data/models/person_model.dart';
 import 'package:flutter_new_template/core/view/widgets/chat_bubble.dart';
@@ -16,10 +17,17 @@ class ChatDetailsPage extends StatefulWidget {
 class _ChatDetailsPageState extends State<ChatDetailsPage> {
   final TextEditingController textController = TextEditingController();
   final ChatCubit cubit = sl<ChatCubit>();
+  late String chatId;
 
   @override
   void initState() {
-    cubit.getAll(widget.person.email ?? '');
+    chatId =
+        '${sl<FirebaseAuth>().currentUser?.email ?? ''}--${widget.person.email ?? ''}';
+    cubit.getAll(chatId).then((r) {
+      chatId =
+          '${widget.person.email ?? ''}--${sl<FirebaseAuth>().currentUser?.email ?? ''}';
+      cubit.getAll(chatId);
+    });
     super.initState();
   }
 
@@ -62,7 +70,11 @@ class _ChatDetailsPageState extends State<ChatDetailsPage> {
             ),
             Expanded(
               child: CustomCubitBuilder<List<MessageModel>>(
-                tryAgain: () => cubit.getAll(widget.person.email ?? ''),
+                tryAgain: () => cubit.getAll(chatId).then((r) {
+                  chatId =
+                      '${widget.person.email ?? ''}--${sl<FirebaseAuth>().currentUser?.email ?? ''}';
+                  cubit.getAll(chatId);
+                }),
                 cubit: cubit,
                 onSuccess: (context, state) {
                   return ListView.separated(
@@ -106,6 +118,7 @@ class _ChatDetailsPageState extends State<ChatDetailsPage> {
                               await cubit.sendMessage(
                                 widget.person.email ?? '',
                                 textController.text,
+                                chatId,
                               );
                               textController.clear();
                             },

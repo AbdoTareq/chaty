@@ -11,10 +11,9 @@ class ChatCubit extends Cubit<BaseState<List<MessageModel>>> {
   }) : super(const BaseState());
   final ChatUsecases useCase;
 
-  Future<void> getAll(String receiver) async {
+  Future<void> getAll(String id) async {
     emit(state.copyWith(status: RxStatus.loading));
-    final response = await useCase
-        .getAll('${sl<FirebaseAuth>().currentUser?.email ?? ''}--$receiver');
+    final response = await useCase.getAll(id);
     response.fold((l) {
       emit(state.copyWith(status: RxStatus.error, errorMessage: l.toString()));
     }, (r) {
@@ -35,7 +34,8 @@ class ChatCubit extends Cubit<BaseState<List<MessageModel>>> {
     });
   }
 
-  Future<void> sendMessage(String receiver, String message) async {
+  Future<void> sendMessage(
+      String receiver, String message, String chatId) async {
     final response = await useCase.create(
       MessageModel(
         sender: sl<FirebaseAuth>().currentUser?.email ?? '',
@@ -43,7 +43,7 @@ class ChatCubit extends Cubit<BaseState<List<MessageModel>>> {
         message: message,
         id: DateTime.now().millisecondsSinceEpoch.toString(),
       ),
-      '${sl<FirebaseAuth>().currentUser?.email ?? ''}--$receiver',
+      chatId,
     );
     response.fold((l) {}, (r) {});
   }
