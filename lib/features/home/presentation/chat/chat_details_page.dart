@@ -5,6 +5,7 @@ import 'package:flutter_new_template/core/view/widgets/chat_bubble.dart';
 import 'package:flutter_new_template/core/view/widgets/custom_cubit_builder.dart';
 import 'package:flutter_new_template/export.dart';
 import 'package:flutter_new_template/features/home/presentation/chat/chat_cubit.dart';
+import 'package:flutter_new_template/features/home/presentation/chat/persons_cubit.dart';
 
 class ChatDetailsPage extends StatefulWidget {
   const ChatDetailsPage({super.key, required this.person});
@@ -17,6 +18,7 @@ class ChatDetailsPage extends StatefulWidget {
 class _ChatDetailsPageState extends State<ChatDetailsPage> {
   final TextEditingController textController = TextEditingController();
   final ChatCubit cubit = sl<ChatCubit>();
+  final PersonsCubit personsCubit = sl<PersonsCubit>();
   late String chatId;
 
   @override
@@ -28,6 +30,7 @@ class _ChatDetailsPageState extends State<ChatDetailsPage> {
           '${widget.person.email ?? ''}--${sl<FirebaseAuth>().currentUser?.email ?? ''}';
       cubit.getAll(chatId);
     });
+    personsCubit.getAll();
     super.initState();
   }
 
@@ -62,9 +65,19 @@ class _ChatDetailsPageState extends State<ChatDetailsPage> {
                   widget.person.email ?? '',
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
-                subtitle: Text(
-                  widget.person.status.toString().toTitleCase(),
-                  style: Theme.of(context).textTheme.labelLarge,
+                subtitle: CustomCubitBuilder<List<PersonModel>>(
+                  tryAgain: () => personsCubit.getAll(),
+                  cubit: personsCubit,
+                  onSuccess: (context, state) {
+                    return Text(
+                      (state.data ?? [])
+                          .firstWhere((p) => p.email == widget.person.email)
+                          .status
+                          .toString()
+                          .toTitleCase(),
+                      style: Theme.of(context).textTheme.labelLarge,
+                    );
+                  },
                 ),
               ),
             ),
