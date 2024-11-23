@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/core/feature/data/models/person_model.dart';
 import 'package:flutter_new_template/features/home/domain/usecases/usecases.dart';
@@ -31,9 +29,10 @@ class PersonsCubit extends Cubit<BaseState<List<PersonModel>>> {
 
   Future<void> updateStatus(String status) async {
     final response = await useCase.updateStatus(
-        PersonModel(
-            status: status, email: sl<FirebaseAuth>().currentUser?.email ?? ''),
-        sl<FirebaseAuth>().currentUser?.email ?? '');
+      PersonModel(
+          status: status, email: sl<FirebaseAuth>().currentUser?.email ?? ''),
+      sl<FirebaseAuth>().currentUser?.email ?? '',
+    );
     Logger().i(sl<FirebaseAuth>().currentUser?.email ?? '');
     response.fold((l) {}, (r) {});
   }

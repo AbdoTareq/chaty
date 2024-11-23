@@ -8,7 +8,7 @@ class RoundedCornerLoadingButton extends StatefulWidget {
     this.text,
     this.color,
     this.isOutlined = false,
-    this.borderColor = kGreyColor,
+    this.borderColor = Colors.transparent,
     this.width,
     this.height,
   });

@@ -65,7 +65,11 @@ class CustomCubitBuilder<T> extends StatelessWidget {
             case RxStatus.empty:
               return onEmpty != null
                   ? onEmpty!(context, state)
-                  : const Center(child: Text('no data'));
+                  : const Center(
+                      child: Text(
+                      'Add message',
+                      style: TextStyle(color: Colors.white),
+                    ));
             default:
               return onSuccess != null
                   ? onSuccess!(context, state)

@@ -1,7 +1,9 @@
+import 'package:flutter_new_template/core/feature/data/models/message_model.dart';
 import 'package:flutter_new_template/core/feature/data/models/person_model.dart';
+import 'package:flutter_new_template/core/view/widgets/chat_bubble.dart';
+import 'package:flutter_new_template/core/view/widgets/custom_cubit_builder.dart';
 import 'package:flutter_new_template/export.dart';
-import 'package:flutter_new_template/features/auth/presentation/cubit.dart';
-import 'package:flutter_new_template/features/home/presentation/chat/persons_cubit.dart';
+import 'package:flutter_new_template/features/home/presentation/chat/chat_cubit.dart';
 
 class ChatDetailsPage extends StatefulWidget {
   const ChatDetailsPage({super.key, required this.person});
@@ -13,7 +15,13 @@ class ChatDetailsPage extends StatefulWidget {
 
 class _ChatDetailsPageState extends State<ChatDetailsPage> {
   final TextEditingController textController = TextEditingController();
-  final PersonsCubit cubit = sl<PersonsCubit>();
+  final ChatCubit cubit = sl<ChatCubit>();
+
+  @override
+  void initState() {
+    cubit.getAll(widget.person.email ?? '');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +61,23 @@ class _ChatDetailsPageState extends State<ChatDetailsPage> {
               ),
             ),
             Expanded(
-              child: SingleChildScrollView(child: Column(children: [])),
+              child: CustomCubitBuilder<List<MessageModel>>(
+                tryAgain: () => cubit.getAll(widget.person.email ?? ''),
+                cubit: cubit,
+                onSuccess: (context, state) {
+                  return ListView.separated(
+                    itemCount: state.data?.length ?? 0,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        16.heightBox,
+                    itemBuilder: (context, index) {
+                      final item = state.data?[index];
+                      return item == null
+                          ? Container()
+                          : ChatBubble(message: item);
+                    },
+                  );
+                },
+              ),
             ),
             Container(
                 color: kGrey,
@@ -73,7 +97,21 @@ class _ChatDetailsPageState extends State<ChatDetailsPage> {
                           ),
                         ),
                       ),
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.send))
+                      SizedBox(
+                        width: 40,
+                        height: 30,
+                        child: RoundedCornerLoadingButton(
+                            color: kGrey,
+                            onPressed: () async {
+                              await cubit.sendMessage(
+                                widget.person.email ?? '',
+                                textController.text,
+                              );
+                              textController.clear();
+                            },
+                            child: const Icon(Icons.send)),
+                      ),
+                      16.widthBox,
                     ],
                   ),
                 ))
