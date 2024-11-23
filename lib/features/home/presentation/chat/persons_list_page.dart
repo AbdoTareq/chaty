@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_new_template/core/feature/data/models/person_model.dart';
+import 'package:flutter_new_template/core/view/widgets/avatar.dart';
 import 'package:flutter_new_template/core/view/widgets/custom_cubit_builder.dart';
 import 'package:flutter_new_template/export.dart';
 import 'package:flutter_new_template/features/home/presentation/chat/persons_cubit.dart';
@@ -40,14 +41,7 @@ class _PersonsListPageState extends State<PersonsListPage> {
                   onTap: () {
                     context.pushNamed(Routes.chatDetails, extra: item);
                   },
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: kPrimaryColor,
-                    child: Text(
-                      item.email![0].toTitleCase(),
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                  ),
+                  leading: Avatar(item: item.email![0].toTitleCase()),
                   title: Text(
                     item.email ?? '',
                     style: Theme.of(context).textTheme.labelLarge,
