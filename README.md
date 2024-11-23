@@ -1,55 +1,50 @@
-# hi_lights
-
-A new Flutter template.
-
 ## Getting Started
 
-translation: 
+1. if add new key to strings_ar.i18n file, you need to add it to strings.i18n file too, otherwise it will not be translated.
+2. run command to generate translations files:
 dart run slang
-
-Change app pakcage name
+ 
+Change app package name
 
 flutter pub run change_app_package_name:main com.package.name
-
-Change app name
-
-flutter pub run rename_app:main all="My App Name"
 
 Change app icon
 
 flutter pub run flutter_launcher_icons:main
 
-# to add firebase notification
+4. I follow clean arch
 
-1. add:
+![alt text](image.png)
 
-# firebase notification require 2 lib firebase_core & firebase_messaging
+in Core you can find data & domain as they are shared in app with local & remote datasources & repository & repositoryImp
 
-firebase_core: ^1.22.0
+on features folder you can find usecases which are the business logic
+& presentation layer  
 
-# found firebase_messaging: ^12.0.3 that is compatible
+1. Login page:
 
-firebase_messaging: ^12.0.3 2. use terminal command to add the android & ios config :
-flutterfire configure 3. copy pushes.json file to the new project to test ios simulator 4. add this code to main.dart
+![alt text](image-3.png)
 
-<!-- WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  // add firebase notification permission request
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
+2. Signup page:
 
-  print('User granted permission: ${settings.authorizationStatus}');
--->
+![alt text](image-4.png)
 
-5. execute the file:
-   xcrun simctl push booted com.simplute.flutterNewTemplate pushes.json
+3. Persons page:
+
+![alt text](image-2.png)
+
+4. Chat page:
+
+![alt text](image-1.png)
+
+
+Firebase database structure: 
+persons:
+/persons/id
+![alt text](image-5.png)
+
+chats:
+/chats/chatId/messages/messageId
+![alt text](image-6.png)
+
+
